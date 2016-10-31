@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Pagamento</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+    
+    <body>
+        
+        <h1>Realizar Pagamento</h1>
+        <form action="FrontController" method="POST">
+            <p>Usuario: <input type="text" name="user"></p>
+            <p>Valor: <input type="number" name="value"></p>
+            <p>Data: <input type="text" name="date">"dd/mm/aaaa"</p>
+            <input type="hidden" name="command" value="Pagamento">
+            <p><input type="submit" value="PAGAR"></p>
+        </form>
+        
+    </body>
+</html>
