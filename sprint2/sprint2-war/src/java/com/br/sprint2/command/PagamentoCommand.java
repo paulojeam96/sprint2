@@ -8,8 +8,12 @@ package com.br.sprint2.command;
 import com.br.sprint2.dao.PagamentoDAO;
 import com.br.sprint2.entities.Pagamento;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +24,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Paulo
  */
 public class PagamentoCommand implements Command {
+
+    PagamentoDAO pagamentoDAO = lookupPagamentoDAOBean();
+    
+    
 
     private String returnPage = "confirmacao.html";
     private HttpServletRequest request;
@@ -40,22 +48,30 @@ public class PagamentoCommand implements Command {
         
         Pagamento pagamento = new Pagamento(user, value, date);
         
-        PagamentoDAO pDAO = new PagamentoDAO();
+        pagamentoDAO = new PagamentoDAO();
         
-        pDAO.persist(pagamento);
+        pagamentoDAO.persist(pagamento);
         
-        RequestDispatcher rd = request.getRequestDispatcher(returnPage);
+        List<Pagamento> confirmacao = pagamentoDAO.read();
         
-        try {
-            rd.forward(request, response);
-        } catch (ServletException | IOException ex) {
-            Logger.getLogger(PagamentoCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        request.getSession().setAttribute("confimacao", confirmacao);
+        
+        returnPage = "confirmacao.jsp";
     }
 
     @Override
     public String getReturnPage() {
         return this.returnPage;
+    }
+
+    private PagamentoDAO lookupPagamentoDAOBean() {
+        try {
+            Context c = new InitialContext();
+            return (PagamentoDAO) c.lookup("java:global/sprint2/sprint2-ejb/PagamentoDAO!com.br.sprint2.dao.PagamentoDAO");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
 
 }

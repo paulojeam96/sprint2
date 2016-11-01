@@ -45,6 +45,9 @@ public class FrontController extends HttpServlet {
                 Command c =(Command)Class.forName("com.br.sprint2.command."+command+"Command").newInstance();
                 c.init(request, response);
                 c.execute();
+                
+                String returnPage = c.getReturnPage();
+                request.getRequestDispatcher(returnPage).forward(request, response);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
             }

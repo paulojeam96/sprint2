@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Paulo
+ * @author paulo.lima
  */
 @Entity
 @Table(name = "PAGAMENTO")
@@ -116,9 +116,7 @@ public class Pagamento implements Serializable {
 
     @Override
     public String toString() {
-        return "Pagamento{" + "id=" + id + ", usuario=" + usuario + ", valor=" + valor + ", diahora=" + diahora + '}';
+        return "com.br.sprint2.entities.Pagamento[ id=" + id + " ]";
     }
-
-    
     
 }
